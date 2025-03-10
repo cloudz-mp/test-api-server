@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -36,9 +37,10 @@ public class SvgController {
     @GetMapping(value = "/{size}/{count}", produces = "image/svg+xml")
     public ResponseEntity<Resource> getSvgFiles(
             @Parameter(description = "SVG 파일 크기 (500, 1000, 4000 또는 random)") @PathVariable String size,
-            @Parameter(description = "반환할 SVG 파일 개수 (1-100)") @PathVariable int count) throws IOException {
+            @Parameter(description = "반환할 SVG 파일 개수 (1-100)") @PathVariable int count,
+            @Parameter(description = "스레드 테스트를 위한 대기 시간(ms)") @RequestParam(required = false, defaultValue = "0") Integer sleepTime) throws IOException {
         
-        List<String> svgContents = svgService.getSvgContents(size, count);
+        List<String> svgContents = svgService.getSvgContents(size, count, sleepTime);
         
         // 여러 SVG 파일을 하나로 합치기
         StringBuilder combinedSvg = new StringBuilder();

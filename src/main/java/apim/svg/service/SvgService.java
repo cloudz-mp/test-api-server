@@ -16,7 +16,18 @@ public class SvgService {
 
     private final Random random = new Random();
     
-    public List<String> getSvgContents(String size, int count) throws IOException {
+    public List<String> getSvgContents(String size, int count, Integer sleepTime) throws IOException {
+        
+        // 스레드 테스트를 위한 대기 시간 처리
+        if (sleepTime != null && sleepTime > 0) {
+            try {
+                Thread.sleep(sleepTime);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("스레드 대기 중 인터럽트 발생", e);
+            }
+        }
+        
         // 유효한 크기인지 확인
         if (!isValidSize(size) && !"random".equals(size)) {
             throw new SvgNotFoundException("유효하지 않은 SVG 크기: " + size);
