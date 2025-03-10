@@ -26,7 +26,7 @@ public class SvgControllerTest {
 
     @Test
     public void testGetSvgFiles() throws Exception {
-        when(svgService.getSvgContents(anyString(), anyInt()))
+        when(svgService.getSvgContents(anyString(), anyInt(), anyInt()))
                 .thenReturn(Arrays.asList("<svg>test</svg>", "<svg>test2</svg>"));
 
         mockMvc.perform(get("/api/svg/500/2"))

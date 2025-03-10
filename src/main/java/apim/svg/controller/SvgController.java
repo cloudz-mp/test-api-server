@@ -75,9 +75,10 @@ public class SvgController {
     )
     @GetMapping(value = "/single/{size}", produces = "image/svg+xml")
     public ResponseEntity<String> getSingleSvg(
-            @Parameter(description = "SVG 파일 크기 (500, 1000, 4000 또는 random)") @PathVariable String size) throws IOException {
+            @Parameter(description = "SVG 파일 크기 (500, 1000, 4000 또는 random)") @PathVariable String size,
+            @Parameter(description = "스레드 테스트를 위한 대기 시간(ms)") @RequestParam(required = false, defaultValue = "0") Integer sleepTime) throws IOException {
         
-        List<String> svgContents = svgService.getSvgContents(size, 1);
+        List<String> svgContents = svgService.getSvgContents(size, 1, sleepTime);
         String svgContent = svgContents.get(0);
         
         HttpHeaders headers = new HttpHeaders();
